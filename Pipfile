@@ -9,6 +9,9 @@ flake8 = "*"
 [packages]
 django = "*"
 djangorestframework = "*"
+google-api-python-client = "*"
+google-auth-oauthlib = "*"
+google-auth-httplib2 = "*"
 
 [requires]
 python_version = "3.6"

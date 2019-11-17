@@ -90,3 +90,5 @@ local_settings.py
 .ionide
 .idea
 db.sqlite3
+
+credentials.json
