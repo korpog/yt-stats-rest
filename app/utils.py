@@ -1,20 +1,19 @@
-# -*- coding: utf-8 -*-
-
-# Sample Python code for youtube.channels.list
-# See instructions for running these code samples locally:
-# https://developers.google.com/explorer-help/guides/code_samples#python
-
 import os
 import json
 
-import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
 
-def main():
+def get_channel_id_from_url(url):
+    idx = url.rfind('/')
+    return url[idx + 1:]
+
+
+def get_list_of_dates(channel_id):
+
     with open('credentials.json', 'r') as file:
         credentials = json.load(file)
 
@@ -28,16 +27,26 @@ def main():
 
     request = youtube.search().list(
         part="snippet",
+        relevanceLanguage="en",
+        channelId=channel_id,
         maxResults=50,
-        q="whatever"
+        order="date",
     )
 
     response = request.execute()
+    list_of_dates = '\n'.join([item["snippet"]["publishedAt"]
+                               for item in response["items"]])
 
-    with open('results.json', 'w') as file:
+    with open("results.json", "w") as file:
         json.dump(response, file)
 
-    print(response)
+    return list_of_dates
+
+
+def main():
+    cid = get_channel_id_from_url(
+        "https://www.youtube.com/channel/UC-QDfvrRIDB6F0bIO4I4HkQ")
+    print(get_list_of_dates(cid))
 
 
 if __name__ == "__main__":
