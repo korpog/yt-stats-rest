@@ -1,6 +1,7 @@
 import os
 import json
 import googleapiclient.discovery
+from collections import Counter
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
@@ -57,6 +58,7 @@ def get_list_of_dates(channel_id):
     append_dates_from_results(response, list_of_dates)
     nextPageToken = response["nextPageToken"]
 
+    # results have to be queried multiple times using next page token
     count = 0
     while nextPageToken and count < 2:
         request = youtube.search().list(
@@ -82,10 +84,33 @@ def get_list_of_dates(channel_id):
     return list_of_dates
 
 
+def fill_zeros(dictionary):
+    # if key (month) wasn't present in the results, set it to zero
+    for i in range(1, 13):
+        if i not in dictionary.keys():
+            dictionary[i] = 0
+
+
+def get_count_per_month(list_tuples):
+    # count videos per month for every year
+    years_set = set([tup[0] for tup in list_tuples])
+    results = {}
+    for year in years_set:
+        cntr = Counter()
+        for tup in list_tuples:
+            if tup[0] == year:
+                cntr[tup[1]] += 1
+        new_dict = dict(cntr)
+        fill_zeros(new_dict)
+        results[year] = new_dict
+    return results
+
+
 def main():
     cid = get_channel_id_from_url(
         "https://www.youtube.com/channel/UC-QDfvrRIDB6F0bIO4I4HkQ")
     dates = get_list_of_dates(cid)
+    results = get_count_per_month(dates)
 
 
 if __name__ == "__main__":
