@@ -13,6 +13,7 @@ djangorestframework = "*"
 google-api-python-client = "*"
 google-auth-oauthlib = "*"
 google-auth-httplib2 = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.6"

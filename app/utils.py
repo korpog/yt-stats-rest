@@ -104,14 +104,3 @@ def get_count_per_month(list_tuples):
         fill_zeros(new_dict)
         results[year] = new_dict
     return results
-
-
-def main():
-    cid = get_channel_id_from_url(
-        "https://www.youtube.com/channel/UC-QDfvrRIDB6F0bIO4I4HkQ")
-    dates = get_list_of_dates(cid)
-    results = get_count_per_month(dates)
-
-
-if __name__ == "__main__":
-    main()
