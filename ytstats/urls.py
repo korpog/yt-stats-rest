@@ -19,5 +19,5 @@ from app.views import get_video_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('results/', get_video_data, name='get-results'),
+    path('results', get_video_data, name='get-results'),
 ]

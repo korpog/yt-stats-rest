@@ -5,12 +5,6 @@ from collections import Counter
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
-
-def get_channel_id_from_url(url):
-    idx = url.rfind('/')
-    return url[idx + 1:]
-
-
 def datetime_to_date(datetime):
     # trim datetime string to date
     idx = datetime.find('T')
@@ -74,12 +68,6 @@ def get_list_of_dates(channel_id):
         count += 1
         if response["nextPageToken"] is None:
             break
-
-    with open('tuples.txt', 'w') as file:
-        file.write(
-            '\n'.join(f"({t[0]}, {t[1]}, {t[2]})" for t in list_of_dates))
-
-    print(list_of_dates)
 
     return list_of_dates
 
