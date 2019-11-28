@@ -5,6 +5,7 @@ from collections import Counter
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
+
 def datetime_to_date(datetime):
     # trim datetime string to date
     idx = datetime.find('T')
@@ -79,6 +80,16 @@ def fill_zeros(dictionary):
             dictionary[i] = 0
 
 
+def nums_to_months(dictionary):
+    # returns a dict with month names as keys and video count as values
+    new_dict = {}
+    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+              'August', 'September', 'October', 'November', 'December']
+    for i, month in enumerate(months):
+        new_dict[month] = dictionary.pop(i + 1)
+    return new_dict
+
+
 def get_count_per_month(list_tuples):
     # count videos per month for every year
     years_set = set([tup[0] for tup in list_tuples])
@@ -90,5 +101,6 @@ def get_count_per_month(list_tuples):
                 cntr[tup[1]] += 1
         new_dict = dict(cntr)
         fill_zeros(new_dict)
+        new_dict = nums_to_months(new_dict)
         results[year] = new_dict
     return results
