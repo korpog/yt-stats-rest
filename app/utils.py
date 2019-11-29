@@ -73,22 +73,15 @@ def get_list_of_dates(channel_id):
     return list_of_dates
 
 
-def fill_zeros(dictionary):
-    # if key (month) wasn't present in the results, set it to zero
+def get_ordered_data(dictionary):
+    # return list with ordered data (e.g : vids_count[0] contains number of videos for January)
+    vids_count = []
     for i in range(1, 13):
         if i not in dictionary.keys():
             dictionary[i] = 0
-
-
-def nums_to_months(dictionary):
-    # returns a dict with month names as keys and video count as values
-    new_dict = {}
-    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-              'August', 'September', 'October', 'November', 'December']
-    for i, month in enumerate(months):
-        new_dict[month] = dictionary.pop(i + 1)
-    return new_dict
-
+    for key in sorted(dictionary.keys()):
+        vids_count.append(dictionary[key])
+    return vids_count
 
 def get_count_per_month(list_tuples):
     # count videos per month for every year
@@ -100,7 +93,6 @@ def get_count_per_month(list_tuples):
             if tup[0] == year:
                 cntr[tup[1]] += 1
         new_dict = dict(cntr)
-        fill_zeros(new_dict)
-        new_dict = nums_to_months(new_dict)
-        results[year] = new_dict
+        results_list = get_ordered_data(new_dict)
+        results[year] = results_list
     return results
