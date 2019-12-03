@@ -51,24 +51,27 @@ def get_list_of_dates(channel_id):
 
     response = request.execute()
     append_dates_from_results(response, list_of_dates)
-    nextPageToken = response["nextPageToken"]
+    if "nextPageToken" in response.keys():
+        nextPageToken = response["nextPageToken"]
 
-    # results have to be queried multiple times using next page token
-    count = 0
-    while nextPageToken and count < 2:
-        request = youtube.search().list(
-            part="snippet",
-            relevanceLanguage="en",
-            channelId=channel_id,
-            maxResults=50,
-            order="date",
-            pageToken=nextPageToken
-        )
-        response = request.execute()
-        append_dates_from_results(response, list_of_dates)
-        count += 1
-        if response["nextPageToken"] is None:
-            break
+        # results have to be queried multiple times using next page token
+        count = 0
+        while nextPageToken and count < 2:
+            request = youtube.search().list(
+                part="snippet",
+                relevanceLanguage="en",
+                channelId=channel_id,
+                maxResults=50,
+                order="date",
+                pageToken=nextPageToken
+            )
+            response = request.execute()
+            append_dates_from_results(response, list_of_dates)
+            count += 1
+            if response["nextPageToken"] is None:
+                break
+    else:
+        return list_of_dates
 
     return list_of_dates
 
