@@ -14,6 +14,8 @@ google-api-python-client = "*"
 google-auth-oauthlib = "*"
 google-auth-httplib2 = "*"
 django-cors-headers = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.6"
