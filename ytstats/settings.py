@@ -125,6 +125,7 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:8080",
+    "https://ytstats5.netlify.com/"
 )
 
 django_heroku.settings(locals())
