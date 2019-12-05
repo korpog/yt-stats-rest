@@ -28,12 +28,12 @@ def append_dates_from_results(response, list_of_dates):
 
 def get_list_of_dates(channel_id):
     # get submisssion dates for 500 most recent videos from channel with channel_id
-    with open('credentials.json', 'r') as file:
-        credentials = json.load(file)
+    # with open('credentials.json', 'r') as file:
+    #     credentials = json.load(file)
 
     api_service_name = "youtube"
     api_version = "v3"
-    api_key = credentials["api_key"]
+    api_key = os.environ['API_KEY']
 
     list_of_dates = []
 
